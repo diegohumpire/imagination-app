@@ -2,16 +2,17 @@ import { create } from "zustand";
 import { useApplicationStore } from "./ApplicationStore";
 
 type Prompt = {
-  title?: string;
+  title: string;
   text: string;
 };
 
 interface PromptStoreState {
   defaultPrompts: Prompt[];
   fetchDefaultPrompts: () => Promise<Prompt[]>;
-  customPrompt: Prompt;
-  setCustomPrompt(text: string): void;
-  selectedPrompt: Prompt | null;
+  prompt: Prompt;
+  setPrompt(text: string): void;
+  defaultPromptIndex: number;
+  selectDefaultPromptIndex(index: number): void;
 }
 
 export const usePromptStore = create<PromptStoreState>((set) => ({
@@ -19,34 +20,35 @@ export const usePromptStore = create<PromptStoreState>((set) => ({
   fetchDefaultPrompts: () => {
     // Set loading state in true from ApplicationStore
     useApplicationStore.getState().loading(true);
+    set({ defaultPrompts: [], defaultPromptIndex: -1 });
 
     // fetch prompts from an API
     // Mocking...
     return new Promise((resolve) => {
       const prompts: Prompt[] = [
         {
-          title: "Card title 1",
-          text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
+          title: "Prompt 1 - lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
+          text: "1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
         },
         {
-          title: "Card title 2",
-          text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
+          title: "Prompt 2 - lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
+          text: "2 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
         },
         {
-          title: "Card title 3",
-          text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
+          title: "Prompt 3 - lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
+          text: "3 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
         },
         {
-          title: "Card title 4",
-          text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
+          title: "Prompt 4 - lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
+          text: "4 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
         },
         {
-          title: "Card title 5",
-          text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
+          title: "Prompt 5 - lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
+          text: "5 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
         },
         {
-          title: "Card title 6",
-          text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
+          title: "Prompt 6 - lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
+          text: "6 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptas.",
         },
       ];
 
@@ -59,10 +61,18 @@ export const usePromptStore = create<PromptStoreState>((set) => ({
       }, 2000);
     });
   },
-  customPrompt: {
-    title: "Custom Prompt",
+  prompt: {
+    title: "Custom",
     text: "",
   },
-  setCustomPrompt: (text: string) => set({ customPrompt: { text } }),
-  selectedPrompt: null,
+  setPrompt: (text: string) => {
+    set({
+      prompt: {
+        title: "Custom",
+        text: text,
+      },
+    });
+  },
+  defaultPromptIndex: -1,
+  selectDefaultPromptIndex: (index: number) => set({ defaultPromptIndex: index }),
 }));

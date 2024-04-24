@@ -15,6 +15,7 @@ let router = createBrowserRouter([
       { path: "/", element: <Start /> },
       { path: "/choose-prompt", element: <Prompts /> },
       { path: "/prompts", element: <Prompts /> },
+      { path: "/result", element: <ResultPrompt /> },
       { path: "/result-prompt", element: <ResultPrompt /> },
       //   { path: "*", element: <Page404 /> },
       { path: "*", element: <LoadingOverlay /> },
