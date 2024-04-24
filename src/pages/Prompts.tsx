@@ -69,7 +69,6 @@ const CustomPrompt = ({ open, onClose }: CustomPromptProps) => {
 
 const Prompts = () => {
   const [open, setOpen] = useState(false);
-  const [selectedPromptIndex, setSelectedPromptIndex] = useState<number | null>(null);
 
   return (
     <div className="flex flex-col h-screen relative">
@@ -90,7 +89,7 @@ const Prompts = () => {
       <div className="flex flex-col justify-center p-4">
         <h2 className="flex text-2xl justify-center items-center pb-4">Escoge un prompt para comenzar:</h2>
         <div className="grid grid-cols-3 gap-4">
-          <PrompsList selectedPromptIndex={selectedPromptIndex} setSelectedPromptIndex={setSelectedPromptIndex} />
+          <PrompsList />
         </div>
       </div>
       <div className="flex justify-center items-center gap-2">

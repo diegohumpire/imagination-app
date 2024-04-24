@@ -1,15 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePromptStore } from "../stores/PromptStore";
 import PromptCard from "./PromptCard";
 
-interface PrompsListProps {
-  selectedPromptIndex: number | null;
-  setSelectedPromptIndex: (index: number) => void;
-}
-
-const PrompsList = ({ selectedPromptIndex, setSelectedPromptIndex }: PrompsListProps) => {
+const PrompsList = () => {
   const prompts = usePromptStore((state) => state.defaultPrompts);
   const fetchDefaultPrompts = usePromptStore((state) => state.fetchDefaultPrompts);
+  const [selectedPromptIndex, setSelectedPromptIndex] = useState<number | null>(null);
 
   useEffect(() => {
     fetchDefaultPrompts();
