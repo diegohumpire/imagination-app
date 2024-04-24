@@ -4,7 +4,6 @@ import Prompts from "./pages/Prompts.tsx";
 import ResultPrompt from "./pages/ResultPrompt.tsx";
 import Layout from "./components/Layout.tsx";
 import Page404 from "./pages/errors/Page404.tsx";
-import LoadingOverlay from "./components/LoadingOverlay.tsx";
 
 let router = createBrowserRouter([
   {
@@ -17,8 +16,7 @@ let router = createBrowserRouter([
       { path: "/prompts", element: <Prompts /> },
       { path: "/result", element: <ResultPrompt /> },
       { path: "/result-prompt", element: <ResultPrompt /> },
-      //   { path: "*", element: <Page404 /> },
-      { path: "*", element: <LoadingOverlay /> },
+      { path: "*", element: <Page404 /> },
     ],
   },
 ]);
