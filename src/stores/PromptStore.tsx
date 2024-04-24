@@ -6,16 +6,38 @@ type Prompt = {
   text: string;
 };
 
+type PromptResultType = "image" | "text" | "video" | "audio";
+
+type Image = {
+  url: string;
+  sizeString: string;
+  size: {
+    width: number;
+    height: number;
+  };
+};
+
+type Result = {
+  inputPrompt: Prompt;
+  result: {
+    type: PromptResultType;
+    data: Image;
+  };
+};
+
 interface PromptStoreState {
   defaultPrompts: Prompt[];
   fetchDefaultPrompts: () => Promise<Prompt[]>;
   prompt: Prompt;
-  setPrompt(text: string): void;
+  setPrompt(text: string, title?: string): void;
   defaultPromptIndex: number;
   selectDefaultPromptIndex(index: number): void;
+  processPrompt(): Promise<Result>;
+  result: Result | null;
+  resetResult(): void;
 }
 
-export const usePromptStore = create<PromptStoreState>((set) => ({
+export const usePromptStore = create<PromptStoreState>((set, get) => ({
   defaultPrompts: [],
   fetchDefaultPrompts: () => {
     // Set loading state in true from ApplicationStore
@@ -65,14 +87,44 @@ export const usePromptStore = create<PromptStoreState>((set) => ({
     title: "Custom",
     text: "",
   },
-  setPrompt: (text: string) => {
+  setPrompt: (text: string, title?: string) => {
     set({
       prompt: {
-        title: "Custom",
+        title: title || "Custom",
         text: text,
       },
     });
   },
   defaultPromptIndex: -1,
   selectDefaultPromptIndex: (index: number) => set({ defaultPromptIndex: index }),
+  processPrompt: async () => {
+    const prompt = get().prompt;
+    console.log("Processing prompt:", prompt);
+
+    // Do something with the prompt
+    // Mocking...
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log("Prompt processed");
+        const response: Result = {
+          inputPrompt: prompt,
+          result: {
+            type: "image",
+            data: {
+              url: "https://via.placeholder.com/1024x320",
+              sizeString: "1024x320",
+              size: {
+                width: 1024,
+                height: 320,
+              },
+            },
+          },
+        };
+        resolve(response);
+        set({ result: response });
+      }, 2000);
+    });
+  },
+  result: null,
+  resetResult: () => set({ result: null }),
 }));

@@ -36,7 +36,7 @@ const PromptList = () => {
           text={prompt.title}
           handleClick={() => {
             selectDefaultPromptIndex(index);
-            setPrompt(prompt.text);
+            setPrompt(prompt.text, prompt.title);
           }}
         />
       ))}

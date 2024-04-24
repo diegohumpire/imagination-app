@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import viteLogo from "/vite.svg";
 import { useNavigate } from "react-router-dom";
+import { usePromptStore } from "../stores/PromptStore";
 
 function Start() {
   const navigate = useNavigate();
@@ -10,6 +12,12 @@ function Start() {
     console.log(email);
     navigate("/choose-prompt");
   };
+
+  const resetResult = usePromptStore((state) => state.resetResult);
+
+  useEffect(() => {
+    resetResult();
+  }, []);
 
   return (
     <div className="flex h-screen justify-center items-center">

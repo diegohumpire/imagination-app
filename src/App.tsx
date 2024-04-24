@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Start from "./pages/Start.tsx";
 import Prompts from "./pages/Prompts.tsx";
 import ResultPrompt from "./pages/ResultPrompt.tsx";
-import Layout from "./Layout.tsx";
+import Layout from "./components/Layout.tsx";
 import Page404 from "./pages/errors/Page404.tsx";
 import LoadingOverlay from "./components/LoadingOverlay.tsx";
 

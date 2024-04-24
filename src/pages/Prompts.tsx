@@ -1,12 +1,18 @@
 import { usePromptStore } from "../stores/PromptStore";
 import PrompsList from "../components/PromptList";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Prompts = () => {
   const navigate = useNavigate();
   const selectedPrompt = usePromptStore((state) => state.prompt);
   const setPrompt = usePromptStore((state) => state.setPrompt);
   const selectDefaultPromptIndex = usePromptStore((state) => state.selectDefaultPromptIndex);
+
+  useEffect(() => {
+    selectDefaultPromptIndex(-1);
+    setPrompt("");
+  }, []);
 
   const handleContinue = () => {
     console.log("Continue");
@@ -37,7 +43,7 @@ const Prompts = () => {
         </div>
       </div>
       <div className="flex flex-col justify-center p-4">
-        <h2 className="flex text-2xl justify-center items-center pb-4">Escoge o escribe un prompt para continuar:</h2>
+        <h2 className="flex text-2xl justify-center items-center pb-4">Elige o escribe un prompt para continuar:</h2>
         <div className="grid grid-cols-2 gap-2">
           <div>
             {/* Estoy poniendo prompts por defecto para que sea mas rapido la demostracion para el usuario, e igual puede editar el prompt y continuar */}
