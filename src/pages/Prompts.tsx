@@ -28,10 +28,10 @@ const Prompts = () => {
   return (
     <div className="flex flex-col h-screen relative">
       <div className="flex justify-center p-4 w-full">
-        <div className="hero bg-base-200 w-[70%]">
+        <div className="hero bg-transparent w-[70%] text-white">
           <div className="hero-content text-center">
             <div className="max-w-xl">
-              <h1 className="text-5xl font-bold">Bienvenido</h1>
+              <h1 className="text-3xl font-bold">Bienvenido</h1>
               <p className="py-6">
                 {/* Texto donde explicamos lo que vamos a realizar, rapido */}
                 Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In
@@ -43,8 +43,10 @@ const Prompts = () => {
         </div>
       </div>
       <div className="flex flex-col justify-center p-4">
-        <h2 className="flex text-2xl justify-center items-center pb-4">Elige o escribe un prompt para continuar:</h2>
-        <div className="grid grid-cols-2 gap-2">
+        <h2 className="flex text-2xl justify-center items-center pb-4 text-white">
+          Elige o escribe un prompt para continuar:
+        </h2>
+        <div className="grid grid-cols-2 gap-6 mx-4">
           <div>
             {/* Estoy poniendo prompts por defecto para que sea mas rapido la demostracion para el usuario, e igual puede editar el prompt y continuar */}
             <PrompsList />
@@ -55,7 +57,7 @@ const Prompts = () => {
               placeholder="O escribe uno personalizado"
               value={selectedPrompt.text}
               onChange={(e) => setPrompt(e.target.value)}></textarea>
-            <div className="flex justify-center items-center gap-2">
+            <div className="flex justify-center items-center gap-2 pt-4">
               <button
                 className="btn btn-accent m-auto w-1/2"
                 onClick={() => {

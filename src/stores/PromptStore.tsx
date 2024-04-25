@@ -111,8 +111,8 @@ export const usePromptStore = create<PromptStoreState>((set, get) => ({
           result: {
             type: "image",
             data: {
-              url: "https://via.placeholder.com/1024x320",
-              sizeString: "1024x320",
+              url: "https://via.placeholder.com/512x512",
+              sizeString: "512x512",
               size: {
                 width: 1024,
                 height: 320,

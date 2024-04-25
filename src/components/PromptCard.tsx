@@ -15,7 +15,7 @@ const PromptCard = ({ text, selected, loading, handleClick }: PromptCardProps) =
   }
 
   const onClick = () => handleClick && handleClick();
-  const isSelected = selected ? "bg-cyan-200 border-1 border-cyan-500" : "bg-cyan-50";
+  const isSelected = selected ? "bg-primary border-1 border-primary text-white" : "bg-white";
 
   return (
     <div
