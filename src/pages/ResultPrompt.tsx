@@ -44,7 +44,7 @@ const ResultPrompt = () => {
         console.error(error);
 
         // If reach maximum tries, redirect to start page
-        if (error.status === 429) {
+        if ([429, 401, 403].includes(error.status)) {
           alert(error.message);
           navigate("/start");
         }
