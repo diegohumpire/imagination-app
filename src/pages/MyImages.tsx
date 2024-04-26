@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 const MyImages = () => {
   const myImages = useAuthStore((state) => state.myImages);
   const tries = useAuthStore((state) => state.tries);
+  const email = useAuthStore((state) => state.email);
 
   return (
     <div className="flex flex-col justify-center items-center gap-2 h-screen relative">
@@ -31,14 +32,20 @@ const MyImages = () => {
         )}
       </div>
 
-      <div className="flex justify-center items-center gap-4">
+      <div className="flex justify-center items-center gap-4 max-sm:flex-col max-sm:gap-2">
         {tries < 3 && (
-          <Link className="btn btn-accent text-black" to={"/choose-prompt"}>
+          <Link className="btn btn-secondary text-black" to={"/choose-prompt"}>
             Volver a intentarlo
           </Link>
         )}
-        <Link className="btn btn-primary text-white" to={"/"}>
+        <button
+          type="button"
+          className="btn btn-primary text-white"
+          onClick={() => alert(`Enviaremos tus obras de arte a tu correo: ${email}`)}>
           Enviar a mi correo
+        </button>
+        <Link className="btn btn-accent text-black" to={"/"}>
+          Volver al inicio
         </Link>
       </div>
 

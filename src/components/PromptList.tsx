@@ -9,7 +9,7 @@ const PromptList = () => {
   const setPrompt = usePromptStore((state) => state.setPrompt);
 
   const maxPrompts = 6;
-  let baseClassWrapper = classNames("flex flex-col gap-1");
+  let baseClassWrapper = classNames("flex flex-col");
 
   if (!prompts.length) {
     let skeletonPrompts = [];
@@ -22,7 +22,7 @@ const PromptList = () => {
   }
 
   return (
-    <div className={baseClassWrapper}>
+    <div className={classNames(baseClassWrapper)}>
       {prompts.map((prompt, index) => (
         <PromptCard
           key={index}

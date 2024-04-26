@@ -27,7 +27,13 @@ const Layout = () => {
         {isLoading && <LoadingOverlay />}
         {showEmail && (
           <div>
-            <div className="absolute top-1 right-0 z-50">
+            <div className="absolute top-1 left-0 z-50 text-sm max-sm:text-xs">
+              <span className="text-white cursor-pointer m-2">
+                <span className="text-secondary">Tienes</span>{" "}
+                <span className="text-accent">{totalTries} oportunidad(es)</span>
+              </span>
+            </div>
+            <div className="absolute top-1 right-0 z-50 text-sm max-sm:text-xs">
               <span
                 className="text-white cursor-pointer m-2"
                 onClick={() => {
@@ -35,12 +41,6 @@ const Layout = () => {
                   navigate("/start");
                 }}>
                 Aquí para cambiar: <span className="underline">{currentEmail}</span>
-              </span>
-            </div>
-            <div className="absolute top-1 left-0 z-50">
-              <span className="text-white cursor-pointer m-2">
-                <span className="text-secondary">Tienes</span>{" "}
-                <span className="text-accent">{totalTries} oportunidad(es)</span>
               </span>
             </div>
           </div>

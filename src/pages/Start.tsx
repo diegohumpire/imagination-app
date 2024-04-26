@@ -42,8 +42,8 @@ function Start() {
       <div className="flex flex-col gap-2">
         <div className="flex flex-col justify-center items-center pb-3">
           <img src={viteLogo} className="w-32" alt="Vite logo" />
-          <h1 className="text-5xl pb-3 text-white">Imagina y crea tu arte</h1>
-          <h2 className="text-2xl pb-2 text-white">Ingresa tu email para continuar</h2>
+          <h1 className="text-5xl pb-3 text-white max-sm:text-4xl">Imagina y crea tu arte</h1>
+          <h2 className="text-2xl pb-2 text-white max-sm:text-xl">Ingresa tu email para continuar</h2>
         </div>
         <form className="flex flex-col gap-3 justify-center" action="#" onSubmit={handleSubmit}>
           <label className="input input-bordered flex items-center gap-2">
