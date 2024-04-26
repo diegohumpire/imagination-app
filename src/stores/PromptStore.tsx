@@ -18,7 +18,7 @@ type Image = {
 };
 
 type Result = {
-  inputPrompt: Prompt;
+  inputPrompt: string;
   result: {
     type: PromptResultType;
     data: Image;
@@ -107,7 +107,7 @@ export const usePromptStore = create<PromptStoreState>((set, get) => ({
       setTimeout(() => {
         console.log("Prompt processed");
         const response: Result = {
-          inputPrompt: prompt,
+          inputPrompt: prompt.text,
           result: {
             type: "image",
             data: {

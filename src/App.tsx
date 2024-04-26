@@ -12,6 +12,7 @@ let router = createBrowserRouter([
     errorElement: <Page404 />,
     children: [
       { path: "/", element: <Start /> },
+      { path: "/start", element: <Start /> },
       { path: "/choose-prompt", element: <Prompts /> },
       { path: "/prompts", element: <Prompts /> },
       { path: "/result", element: <ResultPrompt /> },

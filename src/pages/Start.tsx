@@ -2,18 +2,23 @@ import { useEffect } from "react";
 import viteLogo from "/vite.svg";
 import { useNavigate } from "react-router-dom";
 import { usePromptStore } from "../stores/PromptStore";
+import { useAuthStore } from "../stores/AuthStore";
 
 function Start() {
   const navigate = useNavigate();
+  const currentEmail = useAuthStore((state) => state.email);
+  const setEmail = useAuthStore((state) => state.setEmail);
+  const getSessionToken = useAuthStore((state) => state.getSessionToken);
+  const resetResult = usePromptStore((state) => state.resetResult);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const email = (e.currentTarget.elements[0] as HTMLInputElement).value;
-    console.log(email);
-    navigate("/choose-prompt");
+    setEmail(email);
+    getSessionToken()
+      .then(() => navigate("/choose-prompt"))
+      .catch((error) => console.error(error));
   };
-
-  const resetResult = usePromptStore((state) => state.resetResult);
 
   useEffect(() => {
     resetResult();
@@ -41,7 +46,7 @@ function Start() {
               type="email"
               className="grow"
               placeholder="Email"
-              defaultValue={"diegohumpire@gmail.com"}
+              defaultValue={currentEmail}
               autoComplete="off"
               autoCapitalize="off"
               required
