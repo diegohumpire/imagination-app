@@ -2,12 +2,32 @@ import { usePromptStore } from "../stores/PromptStore";
 import PrompsList from "../components/PromptList";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { HttpError } from "../errors";
 
 const Prompts = () => {
   const navigate = useNavigate();
   const selectedPrompt = usePromptStore((state) => state.prompt);
   const setPrompt = usePromptStore((state) => state.setPrompt);
   const selectDefaultPromptIndex = usePromptStore((state) => state.selectDefaultPromptIndex);
+  const fetchDefaultPrompts = usePromptStore((state) => state.fetchDefaultPrompts);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetchDefaultPrompts(signal)
+      .then((_) => console.info("Prompts fetched"))
+      .catch((error: HttpError) => {
+        console.error(error.message, error.status);
+        if (error.status && error.status === 401) {
+          navigate("/start");
+        }
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   useEffect(() => {
     selectDefaultPromptIndex(-1);
@@ -31,12 +51,17 @@ const Prompts = () => {
         <div className="hero bg-transparent w-[70%] text-white">
           <div className="hero-content text-center">
             <div className="max-w-xl">
-              <h1 className="text-3xl font-bold">Bienvenido</h1>
+              <h1 className="text-3xl font-bold">
+                Bienvenido a <span className="font-bold text-accent">Imagine</span>
+              </h1>
               <p className="py-6">
                 {/* Texto donde explicamos lo que vamos a realizar, rapido */}
-                Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In
-                deleniti eaque aut repudiandae et a id nisi. lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Quisquam, voluptas.
+                <span className="font-bold text-accent">Imagine</span> es una herramienta de IA que{" "}
+                <span>
+                  <span className="underline font-bold text-secondary">convierte descripciones textuales</span> en{" "}
+                  <span className="underline font-bold text-secondary">obras de arte</span> visuales
+                </span>
+                . Ingresa un prompt detallado y la IA creará automáticamente una imagen artística única y creativa.
               </p>
             </div>
           </div>
@@ -59,14 +84,14 @@ const Prompts = () => {
               onChange={(e) => setPrompt(e.target.value)}></textarea>
             <div className="flex justify-center items-center gap-2 pt-4">
               <button
-                className="btn btn-accent m-auto w-1/2"
+                className="btn btn-primary text-bold m-auto w-1/2"
                 onClick={() => {
                   selectDefaultPromptIndex(-1);
                   setPrompt("");
                 }}>
                 Borrar
               </button>
-              <button className="btn btn-primary m-auto w-1/2 text-white" onClick={handleContinue}>
+              <button className="btn btn-accent m-auto w-1/2 text-black font-bold" onClick={handleContinue}>
                 Continuar
               </button>
             </div>

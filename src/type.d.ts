@@ -1,3 +1,4 @@
-interface User {
-  email: string;
+interface ErrorAPI {
+  detail: string;
+  [key: string]: string;
 }

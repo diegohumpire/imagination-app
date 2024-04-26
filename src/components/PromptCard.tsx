@@ -1,14 +1,15 @@
 import classNames from "classnames";
 
 interface PromptCardProps {
+  title?: string;
   text?: string;
   selected?: boolean;
   loading?: boolean;
   handleClick?: () => void;
 }
 
-const PromptCard = ({ text, selected, loading, handleClick }: PromptCardProps) => {
-  let sizeClass = classNames("w-full min-h-16 max-h-16 m-auto my-1 p-2");
+const PromptCard = ({ title, text, selected, loading, handleClick }: PromptCardProps) => {
+  let sizeClass = classNames("w-full min-h-16 max-h-16 m-auto my-1 p-1 text-ellipsis");
 
   if (loading) {
     return <div className={classNames(sizeClass, "skeleton")}></div>;
@@ -19,9 +20,16 @@ const PromptCard = ({ text, selected, loading, handleClick }: PromptCardProps) =
 
   return (
     <div
-      className={classNames(sizeClass, "card shadow-xl cursor-pointer border-2 border-solid", isSelected)}
+      className={classNames(
+        sizeClass,
+        "flex gap-1 rounded-md shadow-xl cursor-pointer border-2 border-solid",
+        isSelected,
+      )}
       onClick={onClick}>
-      {text}
+      <p>
+        <span className="font-bold">{title}: </span>
+        <span className="">{text}</span>
+      </p>
     </div>
   );
 };
