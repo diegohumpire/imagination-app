@@ -1,30 +1,49 @@
-# React + TypeScript + Vite
+# Imagination App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Imagination App is a web application built with React and Vite. It allows users to generate random images with IA like GPT and Dall-e
 
-Currently, two official plugins are available:
+## Run Locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Pre requisites
 
-## Expanding the ESLint configuration
+Make a copy from `.env.local.example` and rename it to `.env.local` and fill the variables with the correct values.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+VITE_API_BASE_URL=
+VITE_API_KEY_HEADER=
+VITE_API_KEY=
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+The backend for this project is hosted on [Imagination API](https://github.com/diegohumpire/imagination-api) and runs throught an APIM instance on Azure. So you need to have an API key to access the endpoints. You can get one by contacting me.
+
+Otherwhise you can run the backend locally by following the instructions on the [Imagination API](https://github.com/diegohumpire/imagination-api) repository. Or you can adapt the project to use another backend.
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Run the server
+
+```bash
+npm run dev
+```
+
+### Build the project
+
+```bash
+npm run build
+```
+
+### Preview production locally
+
+```bash
+npm run preview
+```
+
+## TODO
+
+- Improve UI for mobile
+- Add more options for the image generation
+- Mail notification for images generated
