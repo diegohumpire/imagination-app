@@ -24,7 +24,7 @@ const PromptCard = ({ title, text, selected, loading, handleClick }: PromptCardP
         sizeClass,
         "flex gap-1 rounded-md shadow-xl cursor-pointer border-2 border-solid",
         isSelected,
-        "last:hidden first:hidden",
+        "max-sm:last:hidden max-sm:first:hidden",
       )}
       onClick={onClick}>
       <div className="flex flex-col max-sm:justify-center max-sm:items-center">
