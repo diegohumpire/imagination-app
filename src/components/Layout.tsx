@@ -19,7 +19,7 @@ const Layout = () => {
 
   return (
     <div className="relative">
-      <div className="w-screen h-screen absolute z-30 bg-gray-400">
+      <div className="w-screen h-screen absolute z-30 bg-gray-700">
         <div className="absolute w-full h-full"></div>
         <ParticleBackground />
       </div>
