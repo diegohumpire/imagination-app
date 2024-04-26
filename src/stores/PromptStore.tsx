@@ -13,25 +13,6 @@ type Prompt = {
   text: string;
 };
 
-type PromptResultType = "image" | "text" | "video" | "audio";
-
-type Image = {
-  url: string;
-  sizeString: string;
-  size: {
-    width: number;
-    height: number;
-  };
-};
-
-type Result = {
-  inputPrompt: string;
-  result: {
-    type: PromptResultType;
-    data: Image;
-  };
-};
-
 interface PromptStoreState {
   defaultPrompts: Prompt[];
   fetchDefaultPrompts: (abortSignal?: AbortSignal) => Promise<Prompt[] | HttpError | void>;
@@ -39,13 +20,18 @@ interface PromptStoreState {
   setPrompt(text: string, title?: string): void;
   defaultPromptIndex: number;
   selectDefaultPromptIndex(index: number): void;
-  processPrompt(): Promise<Result>;
-  result: Result | null;
-  resetResult(): void;
 }
 
-export const usePromptStore = create<PromptStoreState>((set, get) => ({
+export const usePromptStore = create<PromptStoreState>((set, _) => ({
+  /**
+   * Default prompts
+   */
   defaultPrompts: [],
+
+  /**
+   * @param abortSignal
+   * @returns
+   */
   fetchDefaultPrompts: async (abortSignal?: AbortSignal) => {
     // Set loading state in true from ApplicationStore
     useApplicationStore.getState().loading(true);
@@ -83,10 +69,20 @@ export const usePromptStore = create<PromptStoreState>((set, get) => ({
       });
     });
   },
+
+  /**
+   * Prompt object
+   */
   prompt: {
     title: "Custom",
     text: "",
   },
+
+  /**
+   *
+   * @param text
+   * @param title
+   */
   setPrompt: (text: string, title?: string) => {
     set({
       prompt: {
@@ -97,34 +93,4 @@ export const usePromptStore = create<PromptStoreState>((set, get) => ({
   },
   defaultPromptIndex: -1,
   selectDefaultPromptIndex: (index: number) => set({ defaultPromptIndex: index }),
-  processPrompt: async () => {
-    const prompt = get().prompt;
-    console.log("Processing prompt:", prompt);
-
-    // Do something with the prompt
-    // Mocking...
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log("Prompt processed");
-        const response: Result = {
-          inputPrompt: prompt.text,
-          result: {
-            type: "image",
-            data: {
-              url: "https://via.placeholder.com/512x512",
-              sizeString: "512x512",
-              size: {
-                width: 1024,
-                height: 320,
-              },
-            },
-          },
-        };
-        resolve(response);
-        set({ result: response });
-      }, 2000);
-    });
-  },
-  result: null,
-  resetResult: () => set({ result: null }),
 }));

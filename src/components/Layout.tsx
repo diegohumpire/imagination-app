@@ -7,9 +7,13 @@ import { useAuthStore } from "../stores/AuthStore";
 const Layout = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
   const isLoading = useApplicationStore((state) => state.isLoading);
   const currentEmail = useAuthStore((state) => state.email);
   const restartSession = useAuthStore((state) => state.restartSession);
+  const tries = useAuthStore((state) => state.tries);
+  const totalTries = 3 - tries;
+
   const { pathname }: any = location;
   const showEmail = !["/", "/start"].includes(pathname);
 
@@ -22,15 +26,23 @@ const Layout = () => {
       <main className="relative z-40">
         {isLoading && <LoadingOverlay />}
         {showEmail && (
-          <div className="absolute top-1 right-0 z-50">
-            <span
-              className="text-white cursor-pointer m-2"
-              onClick={() => {
-                restartSession();
-                navigate("/start");
-              }}>
-              Aquí para cambiar: <span className="underline">{currentEmail}</span>
-            </span>
+          <div>
+            <div className="absolute top-1 right-0 z-50">
+              <span
+                className="text-white cursor-pointer m-2"
+                onClick={() => {
+                  restartSession();
+                  navigate("/start");
+                }}>
+                Aquí para cambiar: <span className="underline">{currentEmail}</span>
+              </span>
+            </div>
+            <div className="absolute top-1 left-0 z-50">
+              <span className="text-white cursor-pointer m-2">
+                <span className="text-secondary">Tienes</span>{" "}
+                <span className="text-accent">{3 - tries} oportunidad(es)</span>
+              </span>
+            </div>
           </div>
         )}
         <Outlet />

@@ -2,6 +2,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { useApplicationStore } from "./ApplicationStore";
+import { useImageStore } from "./ImageStore";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
 const API_AUTH_URL = `${API_BASE_URL}/imagine/session`;
@@ -14,8 +15,9 @@ export interface AuthState {
   email: string;
   setEmail: (email: string) => void;
   sessionToken: string;
-  getSessionToken: () => Promise<void>;
+  getSessionToken: (abortSignal?: AbortSignal) => Promise<void>;
   restartSession: () => Promise<void>;
+  getImages: () => Promise<any>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -26,19 +28,9 @@ export const useAuthStore = create<AuthState>()(
       email: "",
       setEmail: (email) => set({ email }),
       sessionToken: "",
-      getSessionToken: async () => {
+      getSessionToken: async (abortSignal?: AbortSignal) => {
         // Loading
         useApplicationStore.getState().loading(true);
-        const emailTry = useApplicationStore.getState().getTry(get().email);
-
-        if (emailTry) {
-          set({ tries: emailTry.count });
-        }
-
-        // Handle error tries
-        if (get().tries >= 3) {
-          return Promise.reject("You have exceeded the number of tries");
-        }
 
         // Make a request to the server to get the session token
         const response = await fetch(API_AUTH_URL, {
@@ -48,6 +40,7 @@ export const useAuthStore = create<AuthState>()(
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email: get().email }),
+          signal: abortSignal,
         });
 
         if (!response.ok) {
@@ -60,11 +53,31 @@ export const useAuthStore = create<AuthState>()(
         // Save the session token
         set({ sessionToken: data.session });
 
+        await get().getImages();
+
+        // Handle error tries
+        if (get().tries >= 3) {
+          useApplicationStore.getState().loading(false);
+          alert("Ya generaste 3 imagenes, por favor disfruta de las que ya tienes");
+          return Promise.reject("You have exceeded the number of tries");
+        }
+
         useApplicationStore.getState().loading(false);
         return Promise.resolve();
       },
       restartSession: async () => {
         set({ sessionToken: "", email: "", tries: 0 });
+      },
+      getImages: async () => {
+        return useImageStore
+          .getState()
+          .getImagesBySessionToken(get().sessionToken)
+          .catch((error) => error)
+          .then((images: any[]) => {
+            console.log(images);
+            set({ tries: images.length });
+            return images;
+          });
       },
     }),
     {

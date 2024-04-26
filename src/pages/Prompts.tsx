@@ -3,6 +3,7 @@ import PrompsList from "../components/PromptList";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { HttpError } from "../errors";
+import { useAuthStore } from "../stores/AuthStore";
 
 const Prompts = () => {
   const navigate = useNavigate();
@@ -10,13 +11,25 @@ const Prompts = () => {
   const setPrompt = usePromptStore((state) => state.setPrompt);
   const selectDefaultPromptIndex = usePromptStore((state) => state.selectDefaultPromptIndex);
   const fetchDefaultPrompts = usePromptStore((state) => state.fetchDefaultPrompts);
+  const getImages = useAuthStore((state) => state.getImages);
 
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
 
     fetchDefaultPrompts(signal)
-      .then((_) => console.info("Prompts fetched"))
+      .then((_) => {
+        console.info("Prompts fetched");
+        getImages().then((images) => {
+          console.info("Images fetched");
+          if (images.length === 3) {
+            alert(
+              "Ya has alcanzado el límite de imágenes generadas, por favor espera unos 10 minutos para volver utilizar Imagine",
+            );
+            navigate("/start");
+          }
+        });
+      })
       .catch((error: HttpError) => {
         console.error(error.message, error.status);
         if (error.status && error.status === 401) {
@@ -84,7 +97,7 @@ const Prompts = () => {
               onChange={(e) => setPrompt(e.target.value)}></textarea>
             <div className="flex justify-center items-center gap-2 pt-4">
               <button
-                className="btn btn-primary text-bold m-auto w-1/2"
+                className="btn btn-grap text-black text-bold m-auto w-1/2"
                 onClick={() => {
                   selectDefaultPromptIndex(-1);
                   setPrompt("");
