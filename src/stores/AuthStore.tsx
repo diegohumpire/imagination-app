@@ -17,7 +17,9 @@ export interface AuthState {
   sessionToken: string;
   getSessionToken: (abortSignal?: AbortSignal) => Promise<void>;
   restartSession: () => Promise<void>;
-  getImages: () => Promise<any>;
+  fetchMyImages: (abortSignal?: AbortSignal) => Promise<any>;
+  myImages: any[];
+  getImages: () => Promise<any[]>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -53,38 +55,36 @@ export const useAuthStore = create<AuthState>()(
         // Save the session token
         set({ sessionToken: data.session });
 
-        await get().getImages();
-
-        // Handle error tries
-        if (get().tries >= 3) {
-          useApplicationStore.getState().loading(false);
-          alert("Ya generaste 3 imagenes, por favor disfruta de las que ya tienes");
-          return Promise.reject("You have exceeded the number of tries");
-        }
-
         useApplicationStore.getState().loading(false);
         return Promise.resolve();
       },
       restartSession: async () => {
         set({ sessionToken: "", email: "", tries: 0 });
       },
-      getImages: async () => {
+      fetchMyImages: async (abortSignal?: AbortSignal) => {
         return useImageStore
           .getState()
-          .getImagesBySessionToken(get().sessionToken)
+          .getImagesBySessionToken(get().sessionToken, abortSignal)
           .catch((error) => error)
           .then((images: any[]) => {
             console.log(images);
-            set({ tries: images.length });
+            set({ tries: images.length, myImages: images });
             return images;
           });
       },
+      myImages: [],
+      getImages: () => Promise.resolve(get().myImages),
     }),
     {
       name: "auth-storage",
       storage: createJSONStorage(() => localStorage),
       version: 1,
-      partialize: (state: AuthState) => ({ sessionToken: state.sessionToken, email: state.email, tries: state.tries }),
+      partialize: (state: AuthState) => ({
+        sessionToken: state.sessionToken,
+        email: state.email,
+        tries: state.tries,
+        images: state.myImages,
+      }),
     },
   ),
 );

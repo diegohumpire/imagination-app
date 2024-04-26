@@ -10,6 +10,7 @@ function Start() {
   const setEmail = useAuthStore((state) => state.setEmail);
   const getSessionToken = useAuthStore((state) => state.getSessionToken);
   const resetResult = useImageStore((state) => state.resetResult);
+  const fetchMyImages = useAuthStore((state) => state.fetchMyImages);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,7 +18,18 @@ function Start() {
     setEmail(email);
 
     getSessionToken()
-      .then(() => navigate("/choose-prompt"))
+      .then(() => {
+        fetchMyImages().then((images) => {
+          if (images.length === 3) {
+            alert(
+              "Ya has alcanzado el límite de imágenes generadas, por favor espera unos 10 minutos para volver utilizar Imagine",
+            );
+            navigate("/my-images");
+          } else {
+            navigate("/prompts");
+          }
+        });
+      })
       .catch((error) => console.error(error));
   };
 

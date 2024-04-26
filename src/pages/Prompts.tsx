@@ -11,7 +11,7 @@ const Prompts = () => {
   const setPrompt = usePromptStore((state) => state.setPrompt);
   const selectDefaultPromptIndex = usePromptStore((state) => state.selectDefaultPromptIndex);
   const fetchDefaultPrompts = usePromptStore((state) => state.fetchDefaultPrompts);
-  const getImages = useAuthStore((state) => state.getImages);
+  const getImages = useAuthStore((state) => state.fetchMyImages);
 
   useEffect(() => {
     const controller = new AbortController();

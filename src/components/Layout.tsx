@@ -40,7 +40,7 @@ const Layout = () => {
             <div className="absolute top-1 left-0 z-50">
               <span className="text-white cursor-pointer m-2">
                 <span className="text-secondary">Tienes</span>{" "}
-                <span className="text-accent">{3 - tries} oportunidad(es)</span>
+                <span className="text-accent">{totalTries} oportunidad(es)</span>
               </span>
             </div>
           </div>

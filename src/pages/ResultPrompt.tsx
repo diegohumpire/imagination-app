@@ -13,8 +13,9 @@ const ResultPrompt = () => {
   const result = useImageStore((state) => state.result);
 
   const processImage = useImageStore((state) => state.processImage);
-  const getImages = useAuthStore((state) => state.getImages);
+  const getImages = useAuthStore((state) => state.fetchMyImages);
   const resetResult = useImageStore((state) => state.resetResult);
+  const tries = useAuthStore((state) => state.tries);
 
   if (!prompt.text || prompt.text === "") {
     return (
@@ -41,6 +42,8 @@ const ResultPrompt = () => {
       })
       .catch((error) => {
         console.error(error);
+
+        // If reach maximum tries, redirect to start page
         if (error.status === 429) {
           alert(error.message);
           navigate("/start");
@@ -68,7 +71,7 @@ const ResultPrompt = () => {
         duration={3000}
         particleCount={250}
         width={1600}
-        zIndex={1}
+        zIndex={51}
         className="absolute left-1 top-3"
       />
       <h1 className="font-bold text-3xl text-accent">Felicidades, haz creado una nueva obra de arte!</h1>
@@ -80,8 +83,13 @@ const ResultPrompt = () => {
         <Link className="btn btn-accent mt-4" to={"/"}>
           Volver al inicio
         </Link>
-        <Link className="btn btn-gray text-black mt-4" to={"/choose-prompt"}>
-          Volver a intentarlo
+        {tries < 3 && (
+          <Link className="btn btn-gray text-black mt-4" to={"/choose-prompt"}>
+            Volver a intentarlo
+          </Link>
+        )}
+        <Link className="btn btn-secondary text-black mt-4" to={"/my-images"}>
+          Ver mis imagenes
         </Link>
       </div>
       <ConfettiExplosion
@@ -89,7 +97,7 @@ const ResultPrompt = () => {
         duration={3000}
         particleCount={250}
         width={1600}
-        zIndex={1}
+        zIndex={51}
         className="absolute right-1 top-3"
       />
     </div>

@@ -4,6 +4,7 @@ import Prompts from "./pages/Prompts.tsx";
 import ResultPrompt from "./pages/ResultPrompt.tsx";
 import Layout from "./components/Layout.tsx";
 import Page404 from "./pages/errors/Page404.tsx";
+import MyImages from "./pages/MyImages.tsx";
 
 let router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ let router = createBrowserRouter([
       { path: "/prompts", element: <Prompts /> },
       { path: "/result", element: <ResultPrompt /> },
       { path: "/result-prompt", element: <ResultPrompt /> },
+      { path: "/my-images", element: <MyImages /> },
       { path: "*", element: <Page404 /> },
     ],
   },
